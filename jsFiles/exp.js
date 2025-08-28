@@ -481,7 +481,7 @@ const exp = (function() {
         data: {phase: 'flow-measure', wheel_id: jsPsych.timelineVariable('deck_id'), ev: jsPsych.timelineVariable('ev'), cardinality: jsPsych.timelineVariable('cardinality'), p_wild: jsPsych.timelineVariable('n_wild')},
         on_finish: function(data) {
             data.round = round;
-            data.flow = data.response
+            data.flow = Object.values(data.response)
         }
     };
 
@@ -498,7 +498,7 @@ const exp = (function() {
         data: {phase: 'happiness-measure', wheel_id: jsPsych.timelineVariable('deck_id'), ev: jsPsych.timelineVariable('ev'), cardinality: jsPsych.timelineVariable('cardinality'), p_wild: jsPsych.timelineVariable('n_wild')},
         on_finish: (data) => {
             data.round = round;
-            data.happiness = data.response;
+            data.happiness = Object.values(data.response);
             round++;
         },
     };
