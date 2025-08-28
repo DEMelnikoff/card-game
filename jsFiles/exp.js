@@ -7,6 +7,10 @@ const exp = (function() {
 
     const condition = 1;
 
+    const nChoices = 10;
+
+    const auto = true;
+
     const play = ["play", "watch"][condition];
 
     const playBool = [true, false][condition];
@@ -114,25 +118,13 @@ const exp = (function() {
     *
     */
 
-    // diagnosticity: 60, 80, 100
-    // cardinality: 2, 4
-    // ev: 3.5, 5.5, 7.5
-
-
     // ====== HELPERS ======
-    function shuffle(array) {
-        const a = array.slice();
-        for (let i = a.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [a[i], a[j]] = [a[j], a[i]];
-        }
-        return a;
-    };
+
 
     // Format deck for on-screen banner like "Deck: 2, 2, 5, 9"
     function deckBannerText(deck) {
         const colored = deck.map(v => `<span style="color:${colorFor(v)}">${v}</span>`).join(', ');
-        return `Deck: ${colored}`;
+        return `Values: ${colored}`;
     };
 
     // Sample uniformly one element from an array
@@ -154,13 +146,18 @@ const exp = (function() {
             </div>
           </button>
         `;
-      }
+      };
       grid += `</div>`;
-      return banner + grid + `<div class="center small">Pick one card.</div>`;
+      return banner + grid;
     };
 
-    // ====== PARAMETERS YOU CAN EDIT ======
-    const P_RANDOM = 0.20;       // prob. outcome is sampled from remaining three cards
+    // Build wildcard array
+    function makeWildcardArray(n, nTotal) {
+      const arr = Array(n).fill(true).concat(Array(nTotal - n).fill(false));
+      return jsPsych.randomization.repeat(arr, 1)
+    }
+
+    // ====== PARAMETERS ======
 
     const FIXED_PALETTE = [
       '#E69F00', // orange
@@ -177,30 +174,70 @@ const exp = (function() {
     const VALUES = [2,3,4,5,6,7,8,9];
 
     const DECKS = [
-      { deck: [2,3,4,5], deck_id: 1 },
-      { deck: [4,5,6,7], deck_id: 1 },
-      { deck: [6,7,8,9], deck_id: 1 },
-      { deck: [2,2,5,5], deck_id: 1 },
-      { deck: [4,4,7,7], deck_id: 1 },
-      { deck: [6,6,9,9], deck_id: 1 },
+      { deck: [2,3,4,5], cardinality: 4, ev: 3.5, n_wild: 4, label: "40%", deck_id: 1 },
+      { deck: [4,5,6,7], cardinality: 4, ev: 5.5, n_wild: 4, label: "40%", deck_id: 2 },
+      { deck: [6,7,8,9], cardinality: 4, ev: 7.5, n_wild: 4, label: "40%", deck_id: 3 },
+      { deck: [2,2,5,5], cardinality: 2, ev: 3.5, n_wild: 4, label: "40%", deck_id: 4 },
+      { deck: [4,4,7,7], cardinality: 2, ev: 5.5, n_wild: 4, label: "40%", deck_id: 5 },
+      { deck: [6,6,9,9], cardinality: 2, ev: 7.5, n_wild: 4, label: "40%", deck_id: 6 },
+
+      { deck: [2,3,4,5], cardinality: 4, ev: 3.5, n_wild: 2, label: "20%", deck_id: 7 },
+      { deck: [4,5,6,7], cardinality: 4, ev: 5.5, n_wild: 2, label: "20%", deck_id: 8 },
+      { deck: [6,7,8,9], cardinality: 4, ev: 7.5, n_wild: 2, label: "20%", deck_id: 9 },
+      { deck: [2,2,5,5], cardinality: 2, ev: 3.5, n_wild: 2, label: "20%", deck_id: 10 },
+      { deck: [4,4,7,7], cardinality: 2, ev: 5.5, n_wild: 2, label: "20%", deck_id: 11 },
+      { deck: [6,6,9,9], cardinality: 2, ev: 7.5, n_wild: 2, label: "20%", deck_id: 12 },
+
+      { deck: [2,3,4,5], cardinality: 4, ev: 3.5, n_wild: 0, label: "0%", deck_id: 13 },
+      { deck: [4,5,6,7], cardinality: 4, ev: 5.5, n_wild: 0, label: "0%", deck_id: 14 },
+      { deck: [6,7,8,9], cardinality: 4, ev: 7.5, n_wild: 0, label: "0%", deck_id: 15 },
+      { deck: [2,2,5,5], cardinality: 2, ev: 3.5, n_wild: 0, label: "0%", deck_id: 16 },
+      { deck: [4,4,7,7], cardinality: 2, ev: 5.5, n_wild: 0, label: "0%", deck_id: 17 },
+      { deck: [6,6,9,9], cardinality: 2, ev: 7.5, n_wild: 0, label: "0%", deck_id: 18 },
     ];
-    const _shuffledPalette = shuffle(FIXED_PALETTE);
+
+    const _shuffledPalette = jsPsych.randomization.repeat(FIXED_PALETTE, 1);
     const VALUE_COLORS = Object.fromEntries(VALUES.map((v,i)=>[v, _shuffledPalette[i]]));
     const colorFor = v => VALUE_COLORS[v];
 
+    // track rounds
+    let round = 1;
+
+    // wildcard array
+    let wildcardArray;
+
+    // deck info
+    const deckInfo = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: function() {
+            let pct = jsPsych.timelineVariable('label');
+            let html = `<div class='pFlip-style'>
+                            <p><span style='font-size:100px'><strong>${pct}</strong></span>
+                            <br><br><br>chance of wildcard</p>
+                        </div>`;
+            return html;
+        },
+        choices: "NO_KEYS",
+        trial_duration: 5000,
+        response_ends_trial: false,
+        data: {phase: 'deck-info', wheel_id: jsPsych.timelineVariable('deck_id'), ev: jsPsych.timelineVariable('ev'), cardinality: jsPsych.timelineVariable('cardinality'), p_wild: jsPsych.timelineVariable('n_wild')},
+        on_finish: function(data) {
+            data.round = round;
+            wildcardArray = makeWildcardArray(jsPsych.timelineVariable('n_wild'), nChoices);
+            console.log(wildcardArray)
+        }
+    };
+
     // Trial factory: one round of picking a card
-    const choiceTrial = {
+    const choose = {
         type: jsPsychHtmlButtonResponse,
         stimulus: "",
         choices: [],
         response_ends_trial: false,
-        data: () => ({
-            phase: 'choice',
-            deck_id: jsPsych.timelineVariable('deck_id')
-        }),
+        data: {phase: 'choice', wheel_id: jsPsych.timelineVariable('deck_id'), ev: jsPsych.timelineVariable('ev'), cardinality: jsPsych.timelineVariable('cardinality'), p_wild: jsPsych.timelineVariable('n_wild')},
         on_start: (trial) => {
             const deck = jsPsych.timelineVariable('deck');
-            const shuffled = shuffle(deck);
+            const shuffled = jsPsych.randomization.repeat(deck, 1);
             trial._deck = deck;
             trial._shuffled = shuffled;
             trial.stimulus = renderCardGrid(shuffled, deck);
@@ -214,43 +251,64 @@ const exp = (function() {
             const buttons   = Array.from(document.querySelectorAll('.card-btn'));
             const flippers  = Array.from(document.querySelectorAll('.card-btn .flip'));
 
-            buttons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    if (buttons.some(b => b.disabled)) return;
+            function selectIndex(idx) {
+                if (buttons.some(b => b.disabled)) return;
+                flippers[idx].classList.add('flipped');
+                buttons.forEach(b => b.disabled = true);
 
-                    const idx = parseInt(btn.dataset.index, 10);
-                    flippers[idx].classList.add('flipped');
-                    buttons.forEach(b => b.disabled = true);
+                const rt = Math.round(performance.now() - startTime);
+                const chosen_value = shuffled[idx];
 
-                    const rt = Math.round(performance.now() - startTime);
-                    const chosen_value = shuffled[idx];
+                let outcome_points  = chosen_value;
+                let wildcard = wildcardArray.pop();
+                if (wildcard) {
+                    const remaining   = shuffled.filter((_, i) => i !== idx);
+                    outcome_points    = sampleOne(remaining);
+                }
 
-                    let random_override = false;
-                    let outcome_points  = chosen_value;
-                    if (Math.random() < P_RANDOM) {
-                      const remaining   = shuffled.filter((_, i) => i !== idx);
-                      outcome_points    = sampleOne(remaining);
-                      random_override   = true;
-                    };
+                setTimeout(() => {
+                    jsPsych.finishTrial({
+                      shuffled_deck: JSON.stringify(shuffled),
+                      deck_original: JSON.stringify(deck),
+                      chosen_index: idx,
+                      chosen_value: chosen_value,
+                      outcome_points: outcome_points,
+                      wildcard: wildcard,
+                      rt: rt
+                    });
+                }, 1750);
+            }
 
-                    setTimeout(() => {
-                      jsPsych.finishTrial({
-                        shuffled_deck: JSON.stringify(shuffled),
-                        deck_original: JSON.stringify(deck),
-                        chosen_index: idx,
-                        chosen_value: chosen_value,
-                        outcome_points: outcome_points,
-                        random_override: random_override,
-                        rt: rt
-                            });
-                    }, 1750);
+            if (auto) {
+                // prevent participant clicks
+                buttons.forEach(b => b.disabled = true);
+
+                const jitterRange = [500, 2500];
+                const [lo, hi] = jitterRange;
+                const delay = Math.floor(lo + Math.random() * (hi - lo + 1));
+
+                setTimeout(() => {
+                    const idx = Math.floor(Math.random() * buttons.length); // 0..3
+                    // re-enable just so selectIndex can lock & compute rt cleanly
+                    buttons.forEach(b => b.disabled = false);
+                    selectIndex(idx);
+                }, delay);
+
+            } else {
+                // MANUAL mode (current behavior)
+                buttons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                      if (buttons.some(b => b.disabled)) return;
+                      const idx = parseInt(btn.dataset.index, 10);
+                      selectIndex(idx);
+                    });
                 });
-            });
+            }
         },
     }
 
     // Feedback trial showing points earned; deck banner remains visible
-    const feedbackTrial = {
+    const feedback = {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: () => {
             const last = jsPsych.data.get().last(1).values()[0]; // the choice trial
@@ -262,30 +320,16 @@ const exp = (function() {
         },
         choices: "NO_KEYS",
         trial_duration: 1750,
-        data: () => ({
-            phase: 'feedback',
-            deck_id: jsPsych.timelineVariable('deck_id')
-        })
+        data: {phase: 'feedback', wheel_id: jsPsych.timelineVariable('deck_id'), ev: jsPsych.timelineVariable('ev'), cardinality: jsPsych.timelineVariable('cardinality'), p_wild: jsPsych.timelineVariable('n_wild')},
     };
 
-    const taskLoop = {
-        timeline: [choiceTrial, feedbackTrial],
-        repetitions: 10
+    // Choice loop
+    const choiceLoop = {
+        timeline: [choose, feedback],
+        repetitions: nChoices,
     };
 
-    p.task = {
-        timeline: [taskLoop],
-        timeline_variables: DECKS,
-        randomize_order: true,
-    };
-
-   /*
-    *
-    *   DEPENDENT MEASURES
-    *
-    */
-
-    // trial: flow DV
+    // Flow measure
     const flowMeasure = {
         type: jsPsychSurveyLikert,
         questions: [
@@ -295,14 +339,10 @@ const exp = (function() {
         ],
         randomize_question_order: false,
         scale_width: 600,
-        data: {ev: jsPsych.timelineVariable('ev'), var: jsPsych.timelineVariable('var'), arrangement: jsPsych.timelineVariable('arrangement')},
+        data: {phase: 'flow-measure', wheel_id: jsPsych.timelineVariable('deck_id'), ev: jsPsych.timelineVariable('ev'), cardinality: jsPsych.timelineVariable('cardinality'), p_wild: jsPsych.timelineVariable('n_wild')},
         on_finish: function(data) {
             data.round = round;
-            let scoreArray = jsPsych.data.get().select('score').values;
-            let outcomesArray = jsPsych.data.get().select('outcomes').values;
-            data.score = scoreArray[scoreArray.length - 1];
-            data.outcomes = outcomesArray[outcomesArray.length - 1];
-            saveSurveyData(data);
+            data.flow = data.response
         }
     };
 
@@ -316,16 +356,34 @@ const exp = (function() {
             },
         ],
         scale_width: 500,
+        data: {phase: 'happiness-measure', wheel_id: jsPsych.timelineVariable('deck_id'), ev: jsPsych.timelineVariable('ev'), cardinality: jsPsych.timelineVariable('cardinality'), p_wild: jsPsych.timelineVariable('n_wild')},
         on_finish: (data) => {
             data.round = round;
-            let scoreArray = jsPsych.data.get().select('score').values;
-            let outcomesArray = jsPsych.data.get().select('outcomes').values;
-            data.score = scoreArray[scoreArray.length - 2];
-            data.outcomes = outcomesArray[outcomesArray.length - 2];
-            saveSurveyData(data);
+            data.happiness = data.response;
             round++;
         },
     };
+
+    // Task loop
+    const taskLoop = {
+        timeline: [deckInfo, choiceLoop, flowMeasure, happinessMeasure],
+    };
+
+    p.task = {
+        timeline: [taskLoop],
+        timeline_variables: DECKS,
+        randomize_order: true,
+        sample: { type: 'without-replacement', size: 3 },
+    };
+
+   /*
+    *
+    *   DEPENDENT MEASURES
+    *
+    */
+
+
+
 
    /*
     *

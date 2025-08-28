@@ -669,7 +669,7 @@
   inset: 0;
   border-radius: inherit;
   transform-style: preserve-3d;          /* CRUCIAL for 3D faces */
-  transition: transform 260ms ease;      /* flip animation */
+  transition: transform 150ms ease;      /* flip animation */
 }
 
 /* ===== Card faces ===== */
@@ -707,4 +707,13 @@
 /* Flip state (applied to .flip via JS) */
 .card-btn .flip.flipped {
   transform: rotateY(180deg);
+}
+
+.pFlip-style {
+  position: fixed; /* or absolute */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 40px;
+  color: 'black';
 }
