@@ -5,15 +5,15 @@ const exp = (function() {
 
     var p = {};
 
-    const condition = 1;
+    const condition = Math.floor(Math.random() * 2);
 
     const nChoices = 10;
 
-    const auto = true;
-
     const play = ["play", "watch"][condition];
 
-    const playBool = [true, false][condition];
+    const doingOrWatching = ["doing", "watching"][condition];
+
+    const auto = [false, true][condition];
 
     jsPsych.data.addProperties({
         condition: play,
@@ -27,14 +27,25 @@ const exp = (function() {
     */
 
     const html = {
-        intro_play: [
+        welcome_play: [
             `<div class='parent'>
-                <p><strong>Welcome to Wheel of Fortune!</strong></p>
-                <p>In Wheel of Fortune, you'll spin a series of prize wheels.</p>
-                <p>Each time you spin a prize wheel, you'll earn tokens.</p>
-                <p>The number of tokens you earn depends on where the wheel lands.</p>
+                <p><strong>Welcome to Four Card Draw!</strong></p>
+                <p>In Four Card Draw, you'll draw from different decks of cards.</p>
+                <p>With each draw, you'll earn tokens.</p>
+                <p>Your goal is to earn as many tokens as possible!</p>
             </div>`,
+        ],
 
+        welcome_watch: [
+            `<div class='parent'>
+                <p><strong>Welcome to Four Card Draw!</strong></p>
+                <p>In Four Card Draw, you'll observe draws from different decks of cards.</p>
+                <p>With each draw, you'll earn tokens.</p>
+                <p>Your goal is to earn as many tokens as possible!</p>
+            </div>`,
+        ],
+
+        how_to_earn: [
             `<div class='parent'>
                 <p>The more tokens you earn, the better your chances of winning a <strong>$100.00 bonus prize</strong>.</p>
                 <p>The tokens you earn will be entered into a lottery, and if one of your tokens is drawn, you'll win $100.00. 
@@ -42,50 +53,84 @@ const exp = (function() {
             </div>`,
 
             `<div class='parent'>
-                <p>To spin a prize wheel, just grab it with your cursor and give it a spin!
-                <br>Watch the animation below to see how it's done.</p>
-                <img src="./img/spin-${play}-gif.gif" style="width:60%; height:60%">
+                <p>Each deck contains four cards, like this:</p>
+                <img src="./img/cards.png" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
-                <p>Throughout Wheel of Fortune, you'll answer questions about your feelings.</p>
-                <p>Specifically, you'll report how <strong>immersed and engaged</strong> you feel while spinning each wheel,
+                <p>The values of the cards are displayed on top.</p>
+                <p>This deck contains a 4, 5, 6, and 7.</p>
+                <img src="./img/cards.png" style="width:50%; height:50%">
+            </div>`,
+
+            `<div class='parent'>
+                <p>The cards are always arranged in random order.</p>
+                <img src="./img/cards.png" style="width:50%; height:50%">
+            </div>`,
+
+            `<div class='parent'>
+                <p>When a card is selected, it flips over, revealing its value:</p>
+                <img src="./img/flip.png" style="width:50%; height:50%">
+            </div>`,
+
+            `<div class='parent'>
+                <p>Next, you see how many tokens you won.</p>
+                <img src="./img/flip.png" style="width:50%; height:50%">
+            </div>`,
+
+            `<div class='parent'>
+                <p>The number of tokens you win usually equals the number on the selected card.</p>
+                <p>For example, if the selected card was a 4, you'd usually win 4 tokens:</p>
+                <img src="./img/standard-outcome.png" style="width:50%; height:50%">
+            </div>`,
+
+            `<div class='parent'>
+                <p>Occasionally, the number of tokens you win equals a number from an unselected card. This is called a "wildcard outcome." Here's an example of a wildcome outcome:</p>
+                <p>The selected card was a 4, but you earned 5 tokens.</p>
+                <img src="./img/random-outcome.png" style="width:50%; height:50%">
+            </div>`,
+
+            `<div class='parent'>
+                <p>The chance of a wildcard outcome changes from deck to deck.</p>
+            </div>`,
+
+            `<div class='parent'>
+                <p>The chance of a wildcard outcome is displayed before each deck.</p>
+                <p>For example, this message means that the next deck has a 20% chance of a wildcard outcome.</p>
+                <img src="./img/p_wild.png" style="width:50%; height:50%">      
+            </div>`,
+        ],
+
+        how_to_spin_play: [
+            `<div class='parent'>
+                <p>Four Card Draw includes 9 different decks. You will make 10 draws from each deck.</p>
+            </div>`,
+
+            `<div class='parent'>
+                <p>After each deck you'll answer questions about your feelings.</p>
+                <p>Specifically, you'll report how <strong>immersed and engaged</strong> you felt while playing the last deck,
                 as well as how <strong>happy</strong> you currently feel.</p>
             </div>`,      
 
             `<div class='parent'>
-                <p>You're ready to start playing Wheel of Fortune!</p>
+                <p>You're ready to start playing Four Card Draw!</p>
                 <p>Continue to the next screen to begin.</p>
             </div>`,      
         ],
 
-        intro_watch: [
+        how_to_spin_watch: [
             `<div class='parent'>
-                <p><strong>Welcome to Wheel of Fortune!</strong></p>
-                <p>In Wheel of Fortune, you'll observe a series of spinning prize wheels.</p>
-                <p>Each time a prize wheel spins, you'll earn tokens.</p>
-                <p>The number of tokens you earn depends on where the wheel lands.</p>
+                <p>Four Card Draw includes 9 different decks. The cards are drawn automatically at random. You will observe 10 draws from each deck.</p>
             </div>`,
 
             `<div class='parent'>
-                <p>The more tokens you earn, the better your chances of winning a <b>$100.00 bonus prize</b>.</p>
-                <p>The tokens you earn will be entered into a lottery, and if one of your tokens is drawn, you'll win $100.00. To maximize your chances of winning a $100.00 bonus, you'll need to earn as many tokens as possible.</p>
-            </div>`,
-
-            `<div class='parent'>
-                <p>Each prize wheel spins automatically. When it stops spinning, your earnings are revealed.</p>
-                <p>Watch the animation below to see an example.</p>
-                <img src="./img/spin-${play}-gif.gif" style="width:60%; height:60%">
-            </div>`,
-
-            `<div class='parent'>
-                <p>Throughout Wheel of Fortune, you'll answer questions about your feelings.</p>
-                <p>Specifically, you'll report how <strong>immersed and engaged</strong> you feel during each round of Wheel of Fortune,
+                <p>After each deck you'll answer questions about your feelings.</p>
+                <p>Specifically, you'll report how <strong>immersed and engaged</strong> you felt while observing the last deck,
                 as well as how <strong>happy</strong> you currently feel.</p>
             </div>`,      
 
             `<div class='parent'>
-                <p>You're ready to start playing Wheel of Fortune!</p>
+                <p>You're ready to start playing Four Card Draw!</p>
                 <p>Continue to the next screen to begin.</p>
             </div>`,      
         ],
@@ -104,11 +149,79 @@ const exp = (function() {
         cont_btn: "advance",
     };
 
-    p.intro = {
+    const intro = {
         type: jsPsychInstructions,
-        pages: [html.intro_play, html.intro_watch][condition],
+        pages: [[html.welcome_play, html.welcome_watch][condition], ...html.how_to_earn],
         show_clickable_nav: true,
         post_trial_gap: 500,
+        allow_keys: false,
+    };
+
+    let correctAnswers = [`60%`, `80%`, `100%`, `Earn as many tokens as possible.`];
+
+    const errorMessage = {
+        type: jsPsychInstructions,
+        pages: [`<div class='parent'><p>You provided the wrong answer.<br>To make sure you understand the game, please continue to re-read the instructions.</p></div>`],
+        show_clickable_nav: true,
+        allow_keys: false,
+    };
+
+    const attnChk = {
+        type: jsPsychSurveyMultiChoice,
+        preamble: `<div class='parent'>
+            <p>Please answer the following questions.</p>
+            </div>`,
+        questions: [
+            {
+                prompt: `If a 9 is drawn and there's a 40% chance of a wildcard outcome, what are your chances of earning 9 tokens?`, 
+                name: `attnChk1`, 
+                options: ['60%', '80%', '100%'],
+            },
+            {
+                prompt: `If a 9 is drawn and there's a 20% chance of a wildcard outcome, what are your chances of earning 9 tokens?`, 
+                name: `attnChk2`, 
+                options: ['60%', '80%', '100%'],
+            },
+            {
+                prompt: `If a 9 is drawn and there's a 0% chance of a wildcard outcome, what are your chances of earning 9 tokens?`, 
+                name: `attnChk3`, 
+                options: ['60%', '80%', '100%'],
+            },
+            {
+                prompt: `What is your goal?`, 
+                name: `attnChk5`, 
+                options: [`Get as many wildcard outcomes as possible.`, `Earn as many tokens as possible.`],
+            },
+        ],
+        scale_width: 500,
+        on_finish: (data) => {
+              const totalErrors = getTotalErrors(data, correctAnswers);
+              data.totalErrors = totalErrors;
+        },
+    };
+
+    const conditionalNode = {
+      timeline: [errorMessage],
+      conditional_function: () => {
+        const fail = jsPsych.data.get().last(1).select('totalErrors').sum() > 0 ? true : false;
+        return fail;
+      },
+    };
+
+    p.instLoop = {
+      timeline: [intro, attnChk, conditionalNode],
+      loop_function: () => {
+        const fail = jsPsych.data.get().last(2).select('totalErrors').sum() > 0 ? true : false;
+        return fail;
+      },
+    };
+
+    p.postIntro = {
+        type: jsPsychInstructions,
+        pages: [html.how_to_spin_play, html.how_to_spin_watch][condition],
+        show_clickable_nav: true,
+        post_trial_gap: 500,
+        allow_keys: false,
     };
 
     
@@ -119,7 +232,6 @@ const exp = (function() {
     */
 
     // ====== HELPERS ======
-
 
     // Format deck for on-screen banner like "Deck: 2, 2, 5, 9"
     function deckBannerText(deck) {
@@ -133,7 +245,7 @@ const exp = (function() {
     };
 
     // Build the HTML for the 2x2 grid of face-down cards
-    function renderCardGrid(deckShuffled, deckOriginal) {
+    function renderCardGrid(deckShuffled, deckOriginal, backCss) {
       const banner = `<div class="deck-banner center"><strong>${deckBannerText(deckOriginal)}</strong></div>`;
       let grid = `<div class="grid">`;
       for (let i = 0; i < 4; i++) {
@@ -141,8 +253,8 @@ const exp = (function() {
         grid += `
           <button class="card-btn" data-index="${i}">
             <div class="flip">
-              <div class="card-face card-back"></div>
-              <div class="card-face card-front" style="color:${colorFor(val)}">${val}</div>
+                <div class="card-face card-back" style="${backCss}"></div>
+                <div class="card-face card-front" style="color:${colorFor(val)}">${val}</div>
             </div>
           </button>
         `;
@@ -158,6 +270,33 @@ const exp = (function() {
     }
 
     // ====== PARAMETERS ======
+
+    let BACK_COMBOS = [
+      { name: 'diag-blue', css: `background: repeating-linear-gradient(45deg,#cfe8ff 0 8px,#93c5fd 8px 16px);` },
+      { name: 'vert-teal', css: `background: repeating-linear-gradient(90deg,#ccfbf1 0 8px,#5eead4 8px 16px);` },
+      { name: 'horiz-orange', css: `background: repeating-linear-gradient(0deg,#ffedd5 0 8px,#fdba74 8px 16px);` },
+      { name: 'crosshatch-slate', css: `background:
+          repeating-linear-gradient(0deg,#e5e7eb 0 12px, #cbd5e1 12px 24px),
+          repeating-linear-gradient(90deg,#e5e7eb 0 12px, #cbd5e1 12px 24px);` },
+      { name: 'dots-purple', css: `background:
+          radial-gradient(#c084fc 20%, transparent 21%) 0 0/20px 20px,
+          radial-gradient(#c084fc 20%, transparent 21%) 10px 10px/20px 20px, #faf5ff;` },
+      { name: 'checker-teal', css: `background:
+          conic-gradient(#a7f3d0 0 90deg, #d1fae5 0 180deg, #a7f3d0 0 270deg, #d1fae5 0) 0 0/28px 28px;` },
+      { name: 'chevron-pink', css: `background:
+          linear-gradient(135deg,#fbcfe8 25%, transparent 25%) -12px 0/24px 24px,
+          linear-gradient(225deg,#fbcfe8 25%, transparent 25%) -12px 0/24px 24px,
+          linear-gradient(315deg,#fbcfe8 25%, transparent 25%) 0 0/24px 24px,
+          linear-gradient(45deg, #fbcfe8 25%, transparent 25%) 0 0/24px 24px, #ffe4e6;` },
+      { name: 'plaid-gold-blue', css: `background:
+          repeating-linear-gradient(0deg,#fde68a 0 8px, transparent 8px 16px),
+          repeating-linear-gradient(90deg,#93c5fd 0 8px, transparent 8px 16px), #ffffff;` },
+      { name: 'pinstripe-gray', css: `background:
+          repeating-linear-gradient(45deg,#f3f4f6 0 2px, #e5e7eb 2px 4px);` },
+    ];
+
+    // Random order for 9 loops (no repeats)
+    BACK_COMBOS = jsPsych.randomization.repeat(BACK_COMBOS, 1);
 
     const FIXED_PALETTE = [
       '#E69F00', // orange
@@ -238,9 +377,10 @@ const exp = (function() {
         on_start: (trial) => {
             const deck = jsPsych.timelineVariable('deck');
             const shuffled = jsPsych.randomization.repeat(deck, 1);
+            const backCss = BACK_COMBOS[round-1].css;
             trial._deck = deck;
             trial._shuffled = shuffled;
-            trial.stimulus = renderCardGrid(shuffled, deck);
+            trial.stimulus = renderCardGrid(shuffled, deck, backCss);
         },
         on_load: () => {
             const t = jsPsych.getCurrentTrial();
@@ -333,7 +473,7 @@ const exp = (function() {
     const flowMeasure = {
         type: jsPsychSurveyLikert,
         questions: [
-            {prompt: `During the last round of Four Card Draw,<br>how <b>immersed</b> and <b>engaged</b> did you feel in what you were watching?`,
+            {prompt: `During the last round of Four Card Draw,<br>how <b>immersed</b> and <b>engaged</b> did you feel in what you were ${doingOrWatching}?`,
             name: `flow`,
             labels: ['0<br>A little', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10<br>Extremely']},
         ],
@@ -373,17 +513,8 @@ const exp = (function() {
         timeline: [taskLoop],
         timeline_variables: DECKS,
         randomize_order: true,
-        sample: { type: 'without-replacement', size: 3 },
+        sample: { type: 'without-replacement', size: 9 },
     };
-
-   /*
-    *
-    *   DEPENDENT MEASURES
-    *
-    */
-
-
-
 
    /*
     *
@@ -399,101 +530,6 @@ const exp = (function() {
             pages: html.postTask,
             show_clickable_nav: true,
             post_trial_gap: 500,
-        };
-
-        const genFlowScale = ['-2<br>Totally<br>Disagree', '-1<br>Disagree', '0<br>Neither agree<br>nor disagree', '1<br>Agree', '2<br>Totally<br>Agree'];
-
-        const flowGenQuestions = {
-            type: jsPsychSurveyLikert,
-            preamble:
-                `<div style='padding-top: 50px; width: 900px; font-size:16px'>
-                    <p>Please express the extent to which you disagree or agree with each statement.</p>
-                </div>`,
-            questions: [
-                {
-                    prompt: `I enjoy challenging tasks/activities that require a lot of focus.`,
-                    name: `genFlow_1`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `When I am focused on a task/activity, I quickly tend to forget my surroundings (other people, time, and place).`,
-                    name: `genFlow_2`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I usually experience a good flow when I do something (things that are neither too easy nor too difficult for me).`,
-                    name: `genFlow_3`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I have several different areas of interest.`,
-                    name: `genFlow_4`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `It is difficult for me to walk away from or quit a project I am currently working on.`,
-                    name: `genFlow_5`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I become stressed in the face of difficult/challenging tasks.`,
-                    name: `genFlow_6r`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `It is difficult for me to maintain concentration over time.`,
-                    name: `genFlow_7r`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I quickly become tired of the things I do.`,
-                    name: `genFlow_8r`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I am usually satisfied with the results of my efforts across various tasks (I experience feelings of mastery).`,
-                    name: `genFlow_9`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `When I focus on something, I often forget to take a break.`,
-                    name: `genFlow_10`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I get bored easily.`,
-                    name: `genFlow_11r`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `My daily tasks are exhausting rather than stimulating.`,
-                    name: `genFlow_12r`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I develop an interest for most of the things I do in life.`,
-                    name: `genFlow_13`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-            ],
-            randomize_question_order: false,
-            scale_width: 500,
-            on_finish: (data) => {
-                saveSurveyData(data); 
-            },
         };
 
         const gender = {
@@ -557,7 +593,7 @@ const exp = (function() {
     p.save_data = {
         type: jsPsychPipe,
         action: "save",
-        experiment_id: "lrmVyu0nL5X4",
+        experiment_id: "27gh7Nx3wDJE",
         filename: filename,
         data_string: ()=>jsPsych.data.get().csv()
     };
@@ -568,10 +604,11 @@ const exp = (function() {
 
 const timeline = [
     exp.consent, 
-    //exp.intro, 
+    exp.instLoop, 
+    exp.postIntro,
     exp.task, 
-    //exp.demographics, 
-    //exp.save_data
+    exp.demographics, 
+    exp.save_data
 ];
 
 jsPsych.run(timeline);

@@ -39,6 +39,13 @@ const saveSurveyData = (data) => {
     };      
 };
 
+const getTotalErrors = (data, correctAnswers) => {
+    const answers = Object.values(data.response);
+    const errors = answers.map((val, index) => val === correctAnswers[index] ? 0 : 1)
+    const totalErrors = errors.reduce((partialSum, a) => partialSum + a, 0);
+    return totalErrors;
+};
+
 const createSpinner = function(canvas, spinnerData, score, sectors, lose, interactive) {
 
   /* get context */
