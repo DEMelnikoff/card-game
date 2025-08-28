@@ -137,7 +137,7 @@ const exp = (function() {
 
         postTask: [
             `<div class='parent'>
-                <p>Wheel of Fortune is now complete!</p>
+                <p>Four Card Draw is now complete!</p>
                 <p>To finish this study, please continue to answer a few final questions.</p>
             </div>`
         ],
@@ -363,7 +363,6 @@ const exp = (function() {
         on_finish: function(data) {
             data.round = round;
             wildcardArray = makeWildcardArray(jsPsych.timelineVariable('n_wild'), nChoices);
-            console.log(wildcardArray)
         }
     };
 
