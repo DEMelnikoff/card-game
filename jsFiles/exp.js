@@ -85,7 +85,7 @@ const exp = (function() {
             </div>`,
 
             `<div class='parent'>
-                <p>Occasionally, the number of tokens you win equals a number from an unselected card. This is called a "wildcard outcome." Here's an example of a wildcome outcome:</p>
+                <p>Occasionally, the number of tokens you win will equal a number from an unselected card. This is called a "wildcard outcome." Here's an example of a wildcome outcome:</p>
                 <p>The selected card was a 4, but you earned 5 tokens.</p>
                 <img src="./img/random-outcome.png" style="width:50%; height:50%">
             </div>`,
