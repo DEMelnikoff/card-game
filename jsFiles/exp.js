@@ -5,7 +5,7 @@ const exp = (function() {
 
     var p = {};
 
-    const condition = 0;
+    const condition = Math.floor(Math.random() * 2);
 
     const nChoices = 10;
 
@@ -59,7 +59,7 @@ const exp = (function() {
 
             `<div class='parent'>
                 <p>The values of the cards are displayed on top.</p>
-                <p>This deck contains a 4, 5, 6, and 7.</p>
+                <p>This deck contains a 3, 4, 8, and 9.</p>
                 <img src="./img/cards.png" style="width:50%; height:50%">
             </div>`,
 
@@ -69,7 +69,7 @@ const exp = (function() {
             </div>`,
 
             `<div class='parent'>
-                <p>When a card is selected, it flips over, revealing its value:</p>
+                <p>When a card is selected, the deck flips over. The selected card is highlighted.</p>
                 <img src="./img/flip.png" style="width:50%; height:50%">
             </div>`,
 
@@ -80,13 +80,13 @@ const exp = (function() {
 
             `<div class='parent'>
                 <p>The number of tokens you win usually equals the number on the selected card.</p>
-                <p>For example, if the selected card was a 4, you'd usually win 4 tokens:</p>
+                <p>For example, if the selected card was a 3, you'd usually win 3 tokens:</p>
                 <img src="./img/standard-outcome.png" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
                 <p>Occasionally, the number of tokens you win will equal a number from an unselected card. This is called a "wildcard outcome." Here's an example of a wildcome outcome:</p>
-                <p>The selected card was a 4, but you earned 5 tokens.</p>
+                <p>The selected card was a 3, but you earned 8 tokens.</p>
                 <img src="./img/random-outcome.png" style="width:50%; height:50%">
             </div>`,
 
@@ -103,7 +103,7 @@ const exp = (function() {
 
         how_to_spin_play: [
             `<div class='parent'>
-                <p>Four Card Draw includes 9 different decks. You will make 10 draws from each deck.</p>
+                <p>Four Card Draw includes 12 different decks. You will make 10 draws from each deck.</p>
             </div>`,
 
             `<div class='parent'>
@@ -157,7 +157,7 @@ const exp = (function() {
         allow_keys: false,
     };
 
-    let correctAnswers = [`60%`, `80%`, `100%`, `Earn as many tokens as possible.`];
+    let correctAnswers = [`100%`, `80%`, `60%`, `Earn as many tokens as possible.`];
 
     const errorMessage = {
         type: jsPsychInstructions,
@@ -173,23 +173,23 @@ const exp = (function() {
             </div>`,
         questions: [
             {
-                prompt: `If a 9 is drawn and there's a 40% chance of a wildcard outcome, what are your chances of earning 9 tokens?`, 
+                prompt: `If a 9 is selected and there's a 0% chance of a wildcard outcome, what are your chances of earning 9 tokens?`, 
                 name: `attnChk1`, 
                 options: ['60%', '80%', '100%'],
             },
             {
-                prompt: `If a 9 is drawn and there's a 20% chance of a wildcard outcome, what are your chances of earning 9 tokens?`, 
+                prompt: `If a 9 is selected and there's a 20% chance of a wildcard outcome, what are your chances of earning 9 tokens?`, 
                 name: `attnChk2`, 
                 options: ['60%', '80%', '100%'],
             },
             {
-                prompt: `If a 9 is drawn and there's a 0% chance of a wildcard outcome, what are your chances of earning 9 tokens?`, 
+                prompt: `If a 9 is selected and there's a 40% chance of a wildcard outcome, what are your chances of earning 9 tokens?`, 
                 name: `attnChk3`, 
                 options: ['60%', '80%', '100%'],
             },
             {
                 prompt: `What is your goal?`, 
-                name: `attnChk5`, 
+                name: `attnChk4`, 
                 options: [`Get as many wildcard outcomes as possible.`, `Earn as many tokens as possible.`],
             },
         ],
@@ -310,30 +310,25 @@ const exp = (function() {
     ];
 
     // Values you'll use
-    const VALUES = [2,3,4,5,6,7,8,9];
+    const VALUES = [1,2,3,4,6,7,8,9];
 
     const DECKS = [
 
-      { deck: [2,3,4,5], cardinality: 4, ev: 3.5, n_wild: 4, label: "40%", deck_id: 1 },
-      { deck: [4,5,6,7], cardinality: 4, ev: 5.5, n_wild: 4, label: "40%", deck_id: 2 },
-      { deck: [6,7,8,9], cardinality: 4, ev: 7.5, n_wild: 4, label: "40%", deck_id: 3 },
-      { deck: [2,2,5,5], cardinality: 2, ev: 3.5, n_wild: 4, label: "40%", deck_id: 4 },
-      { deck: [4,4,7,7], cardinality: 2, ev: 5.5, n_wild: 4, label: "40%", deck_id: 5 },
-      { deck: [6,6,9,9], cardinality: 2, ev: 7.5, n_wild: 4, label: "40%", deck_id: 6 },
+      { deck: [1,2,6,7], cardinality: 4, ev: 4, n_wild: 4, label: "40%", deck_id: 1 },
+      { deck: [3,4,8,9], cardinality: 4, ev: 6, n_wild: 4, label: "40%", deck_id: 2 },
+      { deck: [1,1,7,7], cardinality: 2, ev: 4, n_wild: 4, label: "40%", deck_id: 3 },
+      { deck: [3,3,9,9], cardinality: 2, ev: 6, n_wild: 4, label: "40%", deck_id: 4 },
 
-      { deck: [2,3,4,5], cardinality: 4, ev: 3.5, n_wild: 2, label: "20%", deck_id: 7 },
-      { deck: [4,5,6,7], cardinality: 4, ev: 5.5, n_wild: 2, label: "20%", deck_id: 8 },
-      { deck: [6,7,8,9], cardinality: 4, ev: 7.5, n_wild: 2, label: "20%", deck_id: 9 },
-      { deck: [2,2,5,5], cardinality: 2, ev: 3.5, n_wild: 2, label: "20%", deck_id: 10 },
-      { deck: [4,4,7,7], cardinality: 2, ev: 5.5, n_wild: 2, label: "20%", deck_id: 11 },
-      { deck: [6,6,9,9], cardinality: 2, ev: 7.5, n_wild: 2, label: "20%", deck_id: 12 },
+      { deck: [1,2,6,7], cardinality: 4, ev: 4, n_wild: 2, label: "20%", deck_id: 5 },
+      { deck: [3,4,8,9], cardinality: 4, ev: 6, n_wild: 2, label: "20%", deck_id: 6 },
+      { deck: [1,1,7,7], cardinality: 2, ev: 4, n_wild: 2, label: "20%", deck_id: 7 },
+      { deck: [3,3,9,9], cardinality: 2, ev: 6, n_wild: 2, label: "20%", deck_id: 8 },
 
-      { deck: [2,3,4,5], cardinality: 4, ev: 3.5, n_wild: 0, label: "0%", deck_id: 13 },
-      { deck: [4,5,6,7], cardinality: 4, ev: 5.5, n_wild: 0, label: "0%", deck_id: 14 },
-      { deck: [6,7,8,9], cardinality: 4, ev: 7.5, n_wild: 0, label: "0%", deck_id: 15 },
-      { deck: [2,2,5,5], cardinality: 2, ev: 3.5, n_wild: 0, label: "0%", deck_id: 16 },
-      { deck: [4,4,7,7], cardinality: 2, ev: 5.5, n_wild: 0, label: "0%", deck_id: 17 },
-      { deck: [6,6,9,9], cardinality: 2, ev: 7.5, n_wild: 0, label: "0%", deck_id: 18 },
+      { deck: [1,2,6,7], cardinality: 4, ev: 4, n_wild: 0, label: "0%", deck_id: 9 },
+      { deck: [3,4,8,9], cardinality: 4, ev: 6, n_wild: 0, label: "0%", deck_id: 10 },
+      { deck: [1,1,7,7], cardinality: 2, ev: 4, n_wild: 0, label: "0%", deck_id: 11 },
+      { deck: [3,3,9,9], cardinality: 2, ev: 6, n_wild: 0, label: "0%", deck_id: 12 },
+
     ];
 
     const _shuffledPalette = jsPsych.randomization.repeat(FIXED_PALETTE, 1);
@@ -532,7 +527,6 @@ const exp = (function() {
         timeline: [taskLoop],
         timeline_variables: DECKS,
         randomize_order: true,
-        sample: { type: 'without-replacement', size: 9 },
     };
 
    /*
@@ -612,7 +606,7 @@ const exp = (function() {
     p.save_data = {
         type: jsPsychPipe,
         action: "save",
-        experiment_id: "27gh7Nx3wDJE",
+        experiment_id: "joIAwK6tZI5e",
         filename: filename,
         data_string: ()=>jsPsych.data.get().csv()
     };
@@ -622,8 +616,6 @@ const exp = (function() {
 }());
 
 const timeline = [
-    exp.task, 
-
     exp.consent, 
     exp.instLoop, 
     exp.postIntro,
