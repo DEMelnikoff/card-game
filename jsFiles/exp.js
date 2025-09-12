@@ -473,6 +473,9 @@ const exp = (function() {
           });
         }
       },
+        on_finish: function(data) {
+            data.round = round;
+        }
     };
 
     // Feedback trial showing points earned; deck banner remains visible
@@ -489,6 +492,9 @@ const exp = (function() {
         choices: "NO_KEYS",
         trial_duration: 1750,
         data: {phase: 'feedback', wheel_id: jsPsych.timelineVariable('deck_id'), ev: jsPsych.timelineVariable('ev'), cardinality: jsPsych.timelineVariable('cardinality'), p_wild: jsPsych.timelineVariable('n_wild')},
+        on_finish: function(data) {
+            data.round = round;
+        },
     };
 
     // Choice loop
