@@ -120,7 +120,7 @@ const exp = (function() {
 
         how_to_spin_watch: [
             `<div class='parent'>
-                <p>Four Card Draw includes 9 different decks. The cards are drawn automatically at random. You will observe 10 draws from each deck.</p>
+                <p>Four Card Draw includes 12 different decks. The cards are drawn automatically at random. You will observe 10 draws from each deck.</p>
             </div>`,
 
             `<div class='parent'>
