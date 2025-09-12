@@ -5,7 +5,7 @@ const exp = (function() {
 
     var p = {};
 
-    const condition = Math.floor(Math.random() * 2);
+    const condition = 0;
 
     const nChoices = 10;
 
@@ -267,7 +267,7 @@ const exp = (function() {
     function makeWildcardArray(n, nTotal) {
       const arr = Array(n).fill(true).concat(Array(nTotal - n).fill(false));
       return jsPsych.randomization.repeat(arr, 1)
-    }
+    };
 
     // ====== PARAMETERS ======
 
@@ -313,6 +313,7 @@ const exp = (function() {
     const VALUES = [2,3,4,5,6,7,8,9];
 
     const DECKS = [
+
       { deck: [2,3,4,5], cardinality: 4, ev: 3.5, n_wild: 4, label: "40%", deck_id: 1 },
       { deck: [4,5,6,7], cardinality: 4, ev: 5.5, n_wild: 4, label: "40%", deck_id: 2 },
       { deck: [6,7,8,9], cardinality: 4, ev: 7.5, n_wild: 4, label: "40%", deck_id: 3 },
@@ -368,83 +369,102 @@ const exp = (function() {
 
     // Trial factory: one round of picking a card
     const choose = {
-        type: jsPsychHtmlButtonResponse,
-        stimulus: "",
-        choices: [],
-        response_ends_trial: false,
-        data: {phase: 'choice', wheel_id: jsPsych.timelineVariable('deck_id'), ev: jsPsych.timelineVariable('ev'), cardinality: jsPsych.timelineVariable('cardinality'), p_wild: jsPsych.timelineVariable('n_wild')},
-        on_start: (trial) => {
-            const deck = jsPsych.timelineVariable('deck');
-            const shuffled = jsPsych.randomization.repeat(deck, 1);
-            const backCss = BACK_COMBOS[round-1].css;
-            trial._deck = deck;
-            trial._shuffled = shuffled;
-            trial.stimulus = renderCardGrid(shuffled, deck, backCss);
-        },
-        on_load: () => {
-            const t = jsPsych.getCurrentTrial();
-            const deck      = t._deck;
-            const shuffled  = t._shuffled;
+      type: jsPsychHtmlButtonResponse,
+      stimulus: "",
+      choices: [],
+      response_ends_trial: false,
+      data: {
+        phase: 'choice',
+        wheel_id: jsPsych.timelineVariable('deck_id'),
+        ev: jsPsych.timelineVariable('ev'),
+        cardinality: jsPsych.timelineVariable('cardinality'),
+        p_wild: jsPsych.timelineVariable('n_wild')
+      },
+      on_start: (trial) => {
+        const deck = jsPsych.timelineVariable('deck');
+        const shuffled = jsPsych.randomization.repeat(deck, 1);
+        const backCss = BACK_COMBOS[round-1].css;
+        trial._deck = deck;
+        trial._shuffled = shuffled;
+        trial.stimulus = renderCardGrid(shuffled, deck, backCss);
+      },
+      on_load: () => {
+        const t = jsPsych.getCurrentTrial();
+        const deck      = t._deck;
+        const shuffled  = t._shuffled;
 
-            const startTime = performance.now();
-            const buttons   = Array.from(document.querySelectorAll('.card-btn'));
-            const flippers  = Array.from(document.querySelectorAll('.card-btn .flip'));
+        const startTime = performance.now();
+        const buttons   = Array.from(document.querySelectorAll('.card-btn'));
+        const flippers  = buttons.map(btn => btn.querySelector('.flip')); // front/back wrapper
 
-            function selectIndex(idx) {
-                if (buttons.some(b => b.disabled)) return;
-                flippers[idx].classList.add('flipped');
-                buttons.forEach(b => b.disabled = true);
+        function flipAll() {
+          flippers.forEach(f => f.classList.add('flipped'));
+        }
+        function highlight(idx) {
+          buttons.forEach(b => b.classList.remove('selected'));
+          buttons[idx].classList.add('selected');
+        }
 
-                const rt = Math.round(performance.now() - startTime);
-                const chosen_value = shuffled[idx];
+        function selectIndex(idx) {
+          if (buttons.some(b => b.disabled)) return;
 
-                let outcome_points  = chosen_value;
-                let wildcard = wildcardArray.pop();
-                if (wildcard) {
-                    const remaining   = shuffled.filter((_, i) => i !== idx);
-                    outcome_points    = sampleOne(remaining);
-                }
+          // Lock input immediately
+          buttons.forEach(b => b.disabled = true);
 
-                setTimeout(() => {
-                    jsPsych.finishTrial({
-                      shuffled_deck: JSON.stringify(shuffled),
-                      deck_original: JSON.stringify(deck),
-                      chosen_index: idx,
-                      chosen_value: chosen_value,
-                      outcome_points: outcome_points,
-                      wildcard: wildcard,
-                      rt: rt
-                    });
-                }, 1750);
-            }
+          // Flip ALL cards and highlight the chosen one
+          flipAll();
+          highlight(idx);
 
-            if (auto) {
-                // prevent participant clicks
-                buttons.forEach(b => b.disabled = true);
+          const rt = Math.round(performance.now() - startTime);
+          const chosen_value = shuffled[idx];
 
-                const jitterRange = [500, 2500];
-                const [lo, hi] = jitterRange;
-                const delay = Math.floor(lo + Math.random() * (hi - lo + 1));
+          let outcome_points  = chosen_value;
+          let wildcard = wildcardArray.pop();
+          if (wildcard) {
+            const remaining = shuffled.filter((_, i) => i !== idx);
+            outcome_points  = sampleOne(remaining);
+          }
 
-                setTimeout(() => {
-                    const idx = Math.floor(Math.random() * buttons.length); // 0..3
-                    // re-enable just so selectIndex can lock & compute rt cleanly
-                    buttons.forEach(b => b.disabled = false);
-                    selectIndex(idx);
-                }, delay);
+          setTimeout(() => {
+            jsPsych.finishTrial({
+              shuffled_deck: JSON.stringify(shuffled),
+              deck_original: JSON.stringify(deck),
+              chosen_index: idx,
+              chosen_value: chosen_value,
+              outcome_points: outcome_points,
+              wildcard: wildcard,
+              rt: rt
+            });
+          }, 1750);
+        }
 
-            } else {
-                // MANUAL mode (current behavior)
-                buttons.forEach(btn => {
-                    btn.addEventListener('click', () => {
-                      if (buttons.some(b => b.disabled)) return;
-                      const idx = parseInt(btn.dataset.index, 10);
-                      selectIndex(idx);
-                    });
-                });
-            }
-        },
-    }
+        if (auto) {
+          // prevent participant clicks
+          buttons.forEach(b => b.disabled = true);
+
+          const jitterRange = [500, 2500];
+          const [lo, hi] = jitterRange;
+          const delay = Math.floor(lo + Math.random() * (hi - lo + 1));
+
+          setTimeout(() => {
+            const idx = Math.floor(Math.random() * buttons.length); // 0..3
+            // re-enable briefly so selectIndex can compute RT cleanly
+            buttons.forEach(b => b.disabled = false);
+            selectIndex(idx);
+          }, delay);
+
+        } else {
+          // MANUAL mode
+          buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+              if (buttons.some(b => b.disabled)) return;
+              const idx = parseInt(btn.dataset.index, 10);
+              selectIndex(idx);
+            });
+          });
+        }
+      },
+    };
 
     // Feedback trial showing points earned; deck banner remains visible
     const feedback = {
@@ -602,6 +622,8 @@ const exp = (function() {
 }());
 
 const timeline = [
+    exp.task, 
+
     exp.consent, 
     exp.instLoop, 
     exp.postIntro,
