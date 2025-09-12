@@ -717,3 +717,13 @@
   font-size: 40px;
   color: 'black';
 }
+
+.card-btn.selected {
+  outline: 4px solid gold;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.9);
+  border-radius: 12px; /* match your card radius */
+}
+
+/* ensure the flip effect applies when we add .flipped */
+.card-btn .flip.flipped .front { transform: rotateY(180deg); }
+.card-btn .flip.flipped .back  { transform: rotateY(0deg); }
