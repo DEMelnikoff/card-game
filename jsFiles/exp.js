@@ -276,23 +276,37 @@ const exp = (function() {
       { name: 'vert-teal', css: `background: repeating-linear-gradient(90deg,#ccfbf1 0 8px,#5eead4 8px 16px);` },
       { name: 'horiz-orange', css: `background: repeating-linear-gradient(0deg,#ffedd5 0 8px,#fdba74 8px 16px);` },
       { name: 'crosshatch-slate', css: `background:
-          repeating-linear-gradient(0deg,#e5e7eb 0 12px, #cbd5e1 12px 24px),
-          repeating-linear-gradient(90deg,#e5e7eb 0 12px, #cbd5e1 12px 24px);` },
+            repeating-linear-gradient(0deg,#e5e7eb 0 12px, #cbd5e1 12px 24px),
+            repeating-linear-gradient(90deg,#e5e7eb 0 12px, #cbd5e1 12px 24px);` },
       { name: 'dots-purple', css: `background:
-          radial-gradient(#c084fc 20%, transparent 21%) 0 0/20px 20px,
-          radial-gradient(#c084fc 20%, transparent 21%) 10px 10px/20px 20px, #faf5ff;` },
+            radial-gradient(#c084fc 20%, transparent 21%) 0 0/20px 20px,
+            radial-gradient(#c084fc 20%, transparent 21%) 10px 10px/20px 20px, #faf5ff;` },
       { name: 'checker-teal', css: `background:
-          conic-gradient(#a7f3d0 0 90deg, #d1fae5 0 180deg, #a7f3d0 0 270deg, #d1fae5 0) 0 0/28px 28px;` },
+            conic-gradient(#a7f3d0 0 90deg, #d1fae5 0 180deg, #a7f3d0 0 270deg, #d1fae5 0) 0 0/28px 28px;` },
       { name: 'chevron-pink', css: `background:
-          linear-gradient(135deg,#fbcfe8 25%, transparent 25%) -12px 0/24px 24px,
-          linear-gradient(225deg,#fbcfe8 25%, transparent 25%) -12px 0/24px 24px,
-          linear-gradient(315deg,#fbcfe8 25%, transparent 25%) 0 0/24px 24px,
-          linear-gradient(45deg, #fbcfe8 25%, transparent 25%) 0 0/24px 24px, #ffe4e6;` },
+            linear-gradient(135deg,#fbcfe8 25%, transparent 25%) -12px 0/24px 24px,
+            linear-gradient(225deg,#fbcfe8 25%, transparent 25%) -12px 0/24px 24px,
+            linear-gradient(315deg,#fbcfe8 25%, transparent 25%) 0 0/24px 24px,
+            linear-gradient(45deg, #fbcfe8 25%, transparent 25%) 0 0/24px 24px, #ffe4e6;` },
       { name: 'plaid-gold-blue', css: `background:
-          repeating-linear-gradient(0deg,#fde68a 0 8px, transparent 8px 16px),
-          repeating-linear-gradient(90deg,#93c5fd 0 8px, transparent 8px 16px), #ffffff;` },
+            repeating-linear-gradient(0deg,#fde68a 0 8px, transparent 8px 16px),
+            repeating-linear-gradient(90deg,#93c5fd 0 8px, transparent 8px 16px), #ffffff;` },
       { name: 'pinstripe-gray', css: `background:
-          repeating-linear-gradient(45deg,#f3f4f6 0 2px, #e5e7eb 2px 4px);` },
+            repeating-linear-gradient(45deg,#f3f4f6 0 2px, #e5e7eb 2px 4px);` },
+      { name: 'zigzag-lime', css: `background:
+            linear-gradient(135deg,#bef264 25%, transparent 25%) -12px 0/24px 24px,
+            linear-gradient(225deg,#bef264 25%, transparent 25%) -12px 0/24px 24px,
+            linear-gradient(315deg,#d9f99d 25%, transparent 25%) 0 0/24px 24px,
+            linear-gradient(45deg, #d9f99d 25%, transparent 25%) 0 0/24px 24px, #ecfccb;` },
+
+      { name: 'polka-red', css: `background:
+            radial-gradient(#f87171 20%, transparent 21%) 0 0/30px 30px,
+            radial-gradient(#f87171 20%, transparent 21%) 15px 15px/30px 30px, #fee2e2;` },
+
+      { name: 'weave-indigo', css: `background:
+            repeating-linear-gradient(0deg,#e0e7ff 0 12px, #c7d2fe 12px 24px),
+            repeating-linear-gradient(90deg,#e0e7ff 0 12px, #c7d2fe 12px 24px),
+            repeating-linear-gradient(45deg,#6366f1 0 2px, transparent 2px);` },
     ];
 
     // Random order for 9 loops (no repeats)
