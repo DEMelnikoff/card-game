@@ -508,7 +508,7 @@ const exp = (function() {
             },
         ],
         randomize_question_order: false,
-        scale_width: 500,
+        scale_width: 550,
         data: {phase: 'flow-measure', wheel_id: jsPsych.timelineVariable('deck_id'), ev: jsPsych.timelineVariable('ev'), cardinality: jsPsych.timelineVariable('cardinality'), p_wild: jsPsych.timelineVariable('n_wild')},
         on_finish: function(data) {
             data.round = round;
@@ -523,11 +523,11 @@ const exp = (function() {
             {
                 prompt: `How <b>happy</b> are you right now?`, 
                 name: `happiness`, 
-                labels: ['0 (Very Unhappy)', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10 (Very Happy)'],
+                labels: ['0<br>Very unhappy', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10<br>Very happy'],
             },
         ],
         randomize_question_order: false,
-        scale_width: 500,
+        scale_width: 550,
         data: {phase: 'happiness-measure', wheel_id: jsPsych.timelineVariable('deck_id'), ev: jsPsych.timelineVariable('ev'), cardinality: jsPsych.timelineVariable('cardinality'), p_wild: jsPsych.timelineVariable('n_wild')},
         on_finish: function(data) {
             data.round = round;
