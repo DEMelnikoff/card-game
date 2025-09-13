@@ -31,8 +31,8 @@ const exp = (function() {
             `<div class='parent'>
                 <p><strong>Welcome to Four Card Draw!</strong></p>
                 <p>In Four Card Draw, you'll draw from different decks of cards.</p>
-                <p>With each draw, you'll earn tokens.</p>
-                <p>Your goal is to earn as many tokens as possible!</p>
+                <p>With each draw, you'll earn points.</p>
+                <p>Your goal is to earn as many points as possible!</p>
             </div>`,
         ],
 
@@ -40,18 +40,12 @@ const exp = (function() {
             `<div class='parent'>
                 <p><strong>Welcome to Four Card Draw!</strong></p>
                 <p>In Four Card Draw, you'll observe draws from different decks of cards.</p>
-                <p>With each draw, you'll earn tokens.</p>
-                <p>Your goal is to earn as many tokens as possible!</p>
+                <p>With each draw, you'll earn points.</p>
+                <p>Your goal is to earn as many points as possible!</p>
             </div>`,
         ],
 
         how_to_earn: [
-            `<div class='parent'>
-                <p>The more tokens you earn, the better your chances of winning a <strong>$100.00 bonus prize</strong>.</p>
-                <p>The tokens you earn will be entered into a lottery, and if one of your tokens is drawn, you'll win $100.00. 
-                To maximize your chances of winning a $100.00 bonus, you'll need to earn as many tokens as possible.</p>
-            </div>`,
-
             `<div class='parent'>
                 <p>Each deck contains four cards, like this:</p>
                 <img src="./img/cards.png" style="width:50%; height:50%">
@@ -74,19 +68,19 @@ const exp = (function() {
             </div>`,
 
             `<div class='parent'>
-                <p>Next, you see how many tokens you won.</p>
+                <p>Next, you see how many points you won.</p>
                 <img src="./img/flip.png" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
-                <p>The number of tokens you win usually equals the number on the selected card.</p>
-                <p>For example, if the selected card was a 3, you'd usually win 3 tokens:</p>
+                <p>The number of points you win usually equals the number on the selected card.</p>
+                <p>For example, if the selected card was a 3, you'd usually win 3 points:</p>
                 <img src="./img/standard-outcome.png" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
-                <p>Occasionally, the number of tokens you win will equal a number from an unselected card. This is called a "wildcard outcome." Here's an example of a wildcome outcome:</p>
-                <p>The selected card was a 3, but you earned 8 tokens.</p>
+                <p>Occasionally, the number of points you win will equal a number from an unselected card. This is called a "wildcard outcome." Here's an example of a wildcome outcome:</p>
+                <p>The selected card was a 3, but you earned 8 points.</p>
                 <img src="./img/random-outcome.png" style="width:50%; height:50%">
             </div>`,
 
@@ -157,7 +151,7 @@ const exp = (function() {
         allow_keys: false,
     };
 
-    let correctAnswers = [`100%`, `80%`, `60%`, `Earn as many tokens as possible.`];
+    let correctAnswers = [`100%`, `80%`, `60%`, `Earn as many points as possible.`];
 
     const errorMessage = {
         type: jsPsychInstructions,
@@ -173,24 +167,24 @@ const exp = (function() {
             </div>`,
         questions: [
             {
-                prompt: `If a 9 is selected and there's a 0% chance of a wildcard outcome, what are your chances of earning 9 tokens?`, 
+                prompt: `If a 9 is selected and there's a 0% chance of a wildcard outcome, what are your chances of earning 9 points?`, 
                 name: `attnChk1`, 
                 options: ['60%', '80%', '100%'],
             },
             {
-                prompt: `If a 9 is selected and there's a 20% chance of a wildcard outcome, what are your chances of earning 9 tokens?`, 
+                prompt: `If a 9 is selected and there's a 20% chance of a wildcard outcome, what are your chances of earning 9 points?`, 
                 name: `attnChk2`, 
                 options: ['60%', '80%', '100%'],
             },
             {
-                prompt: `If a 9 is selected and there's a 40% chance of a wildcard outcome, what are your chances of earning 9 tokens?`, 
+                prompt: `If a 9 is selected and there's a 40% chance of a wildcard outcome, what are your chances of earning 9 points?`, 
                 name: `attnChk3`, 
                 options: ['60%', '80%', '100%'],
             },
             {
                 prompt: `What is your goal?`, 
                 name: `attnChk4`, 
-                options: [`Get as many wildcard outcomes as possible.`, `Earn as many tokens as possible.`],
+                options: [`Get as many wildcard outcomes as possible.`, `Earn as many points as possible.`],
             },
         ],
         scale_width: 500,
@@ -485,7 +479,7 @@ const exp = (function() {
             const last = jsPsych.data.get().last(1).values()[0]; // the choice trial
             return `
               <div class="center">
-                <div style="font-size:80px; font-weight:800; line-height:80px; color:${colorFor(last.outcome_points)}">+${last.outcome_points}<br>Tokens</div>
+                <div style="font-size:80px; font-weight:800; line-height:80px; color:${colorFor(last.outcome_points)}">+${last.outcome_points}<br>Points</div>
               </div>
             `;
         },
@@ -537,7 +531,7 @@ const exp = (function() {
         data: {phase: 'flow-measure', wheel_id: jsPsych.timelineVariable('deck_id'), ev: jsPsych.timelineVariable('ev'), cardinality: jsPsych.timelineVariable('cardinality'), p_wild: jsPsych.timelineVariable('n_wild')},
         on_finish: function(data) {
             data.round = round;
-            data.flow = Object.values(data.response)
+            data.flow = Object.values(data.response)[0];
         }
     };
 
