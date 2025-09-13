@@ -523,12 +523,12 @@ const exp = (function() {
             {
                 prompt: `How <b>happy</b> are you right now?`, 
                 name: `happiness`, 
-                options: ['0 (Very Unhappy)', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10 (Very Happy)'],
+                labels: ['0 (Very Unhappy)', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10 (Very Happy)'],
             },
         ],
         randomize_question_order: false,
-        scale_width: 600,
-        data: {phase: 'flow-measure', wheel_id: jsPsych.timelineVariable('deck_id'), ev: jsPsych.timelineVariable('ev'), cardinality: jsPsych.timelineVariable('cardinality'), p_wild: jsPsych.timelineVariable('n_wild')},
+        scale_width: 500,
+        data: {phase: 'happiness-measure', wheel_id: jsPsych.timelineVariable('deck_id'), ev: jsPsych.timelineVariable('ev'), cardinality: jsPsych.timelineVariable('cardinality'), p_wild: jsPsych.timelineVariable('n_wild')},
         on_finish: function(data) {
             data.round = round;
             data.flow = Object.values(data.response)[0];
