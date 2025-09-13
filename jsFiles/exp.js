@@ -507,9 +507,11 @@ const exp = (function() {
     const flowMeasure = {
         type: jsPsychSurveyLikert,
         questions: [
-            {prompt: `During the last round of Four Card Draw,<br>how <b>immersed</b> and <b>engaged</b> did you feel in what you were ${doingOrWatching}?`,
-            name: `flow`,
-            labels: ['A little', '', '', '', '', '', '', '', '', '', 'Extremely']},
+            {
+                prompt: `During the last round of Four Card Draw,<br>how <b>immersed</b> and <b>engaged</b> did you feel in what you were ${doingOrWatching}?`,
+                name: `flow`,
+                labels: ['0<br>A little', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10<br>Extremely']
+            },
         ],
         randomize_question_order: false,
         scale_width: 500,
@@ -520,22 +522,23 @@ const exp = (function() {
         }
     };
 
+    // Happiness measure
     const happinessMeasure = {
-        type: jsPsychSurveyMultiChoice,
+        type: jsPsychSurveyLikert,
         questions: [
             {
                 prompt: `How <b>happy</b> are you right now?`, 
                 name: `happiness`, 
-                options: ['Very Happy', '', '', '', '', '', '', '', '', '', 'Very Unhappy'],
+                options: ['0 (Very Unhappy)', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10 (Very Happy)'],
             },
         ],
-        scale_width: 400,
-        data: {phase: 'happiness-measure', wheel_id: jsPsych.timelineVariable('deck_id'), ev: jsPsych.timelineVariable('ev'), cardinality: jsPsych.timelineVariable('cardinality'), p_wild: jsPsych.timelineVariable('n_wild')},
-        on_finish: (data) => {
+        randomize_question_order: false,
+        scale_width: 600,
+        data: {phase: 'flow-measure', wheel_id: jsPsych.timelineVariable('deck_id'), ev: jsPsych.timelineVariable('ev'), cardinality: jsPsych.timelineVariable('cardinality'), p_wild: jsPsych.timelineVariable('n_wild')},
+        on_finish: function(data) {
             data.round = round;
-            data.happiness = Object.values(data.response)[0];
-            round++;
-        },
+            data.flow = Object.values(data.response)
+        }
     };
 
     // Task loop
