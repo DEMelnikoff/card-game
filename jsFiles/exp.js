@@ -531,7 +531,7 @@ const exp = (function() {
         data: {phase: 'happiness-measure', wheel_id: jsPsych.timelineVariable('deck_id'), ev: jsPsych.timelineVariable('ev'), cardinality: jsPsych.timelineVariable('cardinality'), p_wild: jsPsych.timelineVariable('n_wild')},
         on_finish: function(data) {
             data.round = round;
-            data.flow = Object.values(data.response)[0];
+            data.happiness = Object.values(data.response)[0];
         }
     };
 
