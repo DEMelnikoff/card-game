@@ -79,8 +79,8 @@ const exp = (function() {
             </div>`,
 
             `<div class='parent'>
-                <p>Occasionally, the number of points you win will equal a number from an unselected card. This is called a "wildcard outcome." Here's an example of a wildcome outcome:</p>
-                <p>The selected card was a 3, but you earned 8 points.</p>
+                <p>Occasionally, the number of points you win will equal a number from an unselected card. This is called a "wildcard outcome."</p>
+                <p>In this example of a wildcome outcome, the selected card was a 3, but 8 points were earned.</p>
                 <img src="./img/random-outcome.png" style="width:50%; height:50%">
             </div>`,
 
