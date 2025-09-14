@@ -727,3 +727,6 @@
 /* ensure the flip effect applies when we add .flipped */
 .card-btn .flip.flipped .front { transform: rotateY(180deg); }
 .card-btn .flip.flipped .back  { transform: rotateY(0deg); }
+
+.card-btn.eliminated { cursor: default; }
+.card-btn.final { outline: 4px solid #22c55e; box-shadow: 0 0 0 6px rgba(34,197,94,0.25); }

@@ -31,8 +31,8 @@ const exp = (function() {
             `<div class='parent'>
                 <p><strong>Welcome to Four Card Draw!</strong></p>
                 <p>In Four Card Draw, you'll draw from different decks of cards.</p>
-                <p>With each draw, you'll earn points.</p>
-                <p>Your goal is to earn as many points as possible!</p>
+                <p>With each draw, you'll earn tokens.</p>
+                <p>Your goal is to earn as many tokens as possible!</p>
             </div>`,
         ],
 
@@ -40,12 +40,18 @@ const exp = (function() {
             `<div class='parent'>
                 <p><strong>Welcome to Four Card Draw!</strong></p>
                 <p>In Four Card Draw, you'll observe draws from different decks of cards.</p>
-                <p>With each draw, you'll earn points.</p>
-                <p>Your goal is to earn as many points as possible!</p>
+                <p>With each draw, you'll earn tokens.</p>
+                <p>Your goal is to earn as many tokens as possible!</p>
             </div>`,
         ],
 
         how_to_earn: [
+            `<div class='parent'>
+                <p>The more tokens you earn, the better your chances of winning a <strong>$100.00 bonus prize</strong>.</p>
+                <p>The tokens you earn will be entered into a lottery, and if one of your tokens is drawn, you'll win $100.00. 
+                To maximize your chances of winning $100.00, earn as many tokens as possible.</p>
+            </div>`,
+
             `<div class='parent'>
                 <p>Each deck contains four cards, like this:</p>
                 <img src="./img/cards.png" style="width:50%; height:50%">
@@ -63,24 +69,25 @@ const exp = (function() {
             </div>`,
 
             `<div class='parent'>
-                <p>When a card is selected, the deck flips over. The selected card is highlighted.</p>
-                <img src="./img/flip.png" style="width:50%; height:50%">
+                <p>The cards are flipped one at a time. The final card is the selected card.</p>
+                <p>In this example, a 9 was selected.</p>
+                <img src="./img/${play}-gif.gif" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
-                <p>Next, you see how many points you won.</p>
-                <img src="./img/flip.png" style="width:50%; height:50%">
+                <p>After a card is selected, you see how many tokens you won.</p>
+                <img src="./img/${play}-gif.gif" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
-                <p>The number of points you win usually equals the number on the selected card.</p>
-                <p>For example, if the selected card was a 3, you'd usually win 3 points:</p>
+                <p>The number of tokens you win usually equals the number on the selected card.</p>
+                <p>For example, if the selected card was a 9, you'd usually win 9 tokens:</p>
                 <img src="./img/standard-outcome.png" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
-                <p>Occasionally, the number of points you win will equal a number from an unselected card. This is called a "wildcard outcome."</p>
-                <p>In this example of a wildcome outcome, the selected card was a 3, but 8 points were earned.</p>
+                <p>Occasionally, your earnings will equal the value of an <strong>unselected card</strong>. This is a <strong>wildcard outcome</strong>. 
+                In this example, the selected card was a 9, but 8 tokens were earned.</p>
                 <img src="./img/random-outcome.png" style="width:50%; height:50%">
             </div>`,
 
@@ -97,7 +104,9 @@ const exp = (function() {
 
         how_to_spin_play: [
             `<div class='parent'>
-                <p>Four Card Draw includes 12 different decks. You will make 10 draws from each deck.</p>
+                <p>Four Card Draw includes 12 different decks. You will make 10 selections from each deck.</p>
+                <p>To flip the cards, click them with your mouse cursor:<p>
+                <img src="./img/${play}-gif.gif" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
@@ -114,7 +123,9 @@ const exp = (function() {
 
         how_to_spin_watch: [
             `<div class='parent'>
-                <p>Four Card Draw includes 12 different decks. The cards are drawn automatically at random. You will observe 10 draws from each deck.</p>
+                <p>Four Card Draw includes 12 different decks. You will observe 10 selections from each deck.</p>
+                <p>The cards will flip automatically at random:<p>
+                <img src="./img/${play}-gif.gif" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
@@ -151,7 +162,7 @@ const exp = (function() {
         allow_keys: false,
     };
 
-    let correctAnswers = [`100%`, `80%`, `60%`, `Earn as many points as possible.`];
+    let correctAnswers = [`100%`, `80%`, `60%`, `Earn as many tokens as possible.`];
 
     const errorMessage = {
         type: jsPsychInstructions,
@@ -167,24 +178,24 @@ const exp = (function() {
             </div>`,
         questions: [
             {
-                prompt: `If a 9 is selected and there's a 0% chance of a wildcard outcome, what are your chances of earning 9 points?`, 
+                prompt: `If a 9 is selected and there's a 0% chance of a wildcard outcome, what are your chances of earning 9 tokens?`, 
                 name: `attnChk1`, 
                 options: ['60%', '80%', '100%'],
             },
             {
-                prompt: `If a 9 is selected and there's a 20% chance of a wildcard outcome, what are your chances of earning 9 points?`, 
+                prompt: `If a 9 is selected and there's a 20% chance of a wildcard outcome, what are your chances of earning 9 tokens?`, 
                 name: `attnChk2`, 
                 options: ['60%', '80%', '100%'],
             },
             {
-                prompt: `If a 9 is selected and there's a 40% chance of a wildcard outcome, what are your chances of earning 9 points?`, 
+                prompt: `If a 9 is selected and there's a 40% chance of a wildcard outcome, what are your chances of earning 9 tokens?`, 
                 name: `attnChk3`, 
                 options: ['60%', '80%', '100%'],
             },
             {
                 prompt: `What is your goal?`, 
                 name: `attnChk4`, 
-                options: [`Get as many wildcard outcomes as possible.`, `Earn as many points as possible.`],
+                options: [`Get as many wildcard outcomes as possible.`, `Earn as many tokens as possible.`],
             },
         ],
         scale_width: 500,
@@ -398,79 +409,117 @@ const exp = (function() {
 
         const startTime = performance.now();
         const buttons   = Array.from(document.querySelectorAll('.card-btn'));
-        const flippers  = buttons.map(btn => btn.querySelector('.flip')); // front/back wrapper
+        const flippers  = buttons.map(btn => btn.querySelector('.flip'));
 
-        function flipAll() {
-          flippers.forEach(f => f.classList.add('flipped'));
+        let remaining   = buttons.map((_, i) => i);   // indices still in play
+        const eliminated_order = [];                  // [{idx, at_ms}]
+        let busy = false;
+
+        // helpers
+        function flipOne(idx) { flippers[idx].classList.add('flipped'); }
+        function markEliminated(idx) {
+          buttons[idx].classList.add('eliminated');
+          buttons[idx].disabled = true;
         }
-        function highlight(idx) {
-          buttons.forEach(b => b.classList.remove('selected'));
-          buttons[idx].classList.add('selected');
+        function highlightFinal(idx) {
+          buttons[idx].classList.add('final');
         }
 
-        function selectIndex(idx) {
-          if (buttons.some(b => b.disabled)) return;
-
-          // Lock input immediately
-          buttons.forEach(b => b.disabled = true);
-
-          // Flip ALL cards and highlight the chosen one
-          flipAll();
-          highlight(idx);
-
+        function finishTrial(finalIdx) {
           const rt = Math.round(performance.now() - startTime);
-          const chosen_value = shuffled[idx];
+          const chosen_value = shuffled[finalIdx];
 
-          let outcome_points  = chosen_value;
+          let outcome_points = chosen_value;
           let wildcard = wildcardArray.pop();
           if (wildcard) {
-            const remaining = shuffled.filter((_, i) => i !== idx);
-            outcome_points  = sampleOne(remaining);
+            const others = shuffled.filter((_, i) => i !== finalIdx);
+            outcome_points = sampleOne(others);
           }
 
-          setTimeout(() => {
-            jsPsych.finishTrial({
-              shuffled_deck: JSON.stringify(shuffled),
-              deck_original: JSON.stringify(deck),
-              chosen_index: idx,
-              chosen_value: chosen_value,
-              outcome_points: outcome_points,
-              wildcard: wildcard,
-              rt: rt
-            });
-          }, 1750);
+          jsPsych.finishTrial({
+            shuffled_deck: JSON.stringify(shuffled),
+            deck_original: JSON.stringify(deck),
+            chosen_index: finalIdx,
+            chosen_value: chosen_value,
+            outcome_points: outcome_points,
+            wildcard: wildcard,
+            rt: rt,
+            eliminated_order: JSON.stringify(eliminated_order.map(e => e.idx)),
+            eliminated_times_ms: JSON.stringify(eliminated_order.map(e => e.at_ms))
+          });
+        }
+
+        function eliminateIndex(idx) {
+          // eliminate (flip + disable) exactly one card
+          busy = true;
+          flipOne(idx);
+          markEliminated(idx);
+
+          eliminated_order.push({ idx, at_ms: Math.round(performance.now() - startTime) });
+          remaining = remaining.filter(i => i !== idx);
+
+          // brief guard so users can't double-click through animations
+          setTimeout(() => { busy = false; }, 300);
         }
 
         if (auto) {
-          // prevent participant clicks
+          // ===== WATCH / AUTO: identical behavior to automated version =====
           buttons.forEach(b => b.disabled = true);
+          const jitterRange = [400, 1000];
 
-          const jitterRange = [500, 2500];
-          const [lo, hi] = jitterRange;
-          const delay = Math.floor(lo + Math.random() * (hi - lo + 1));
+          function autoEliminateNext() {
+            if (remaining.length <= 1) return;
+            const [lo, hi] = jitterRange;
+            const delay = Math.floor(lo + Math.random() * (hi - lo + 1));
+            setTimeout(() => {
+              const pick = remaining[Math.floor(Math.random() * remaining.length)];
+              eliminateIndex(pick);
 
-          setTimeout(() => {
-            const idx = Math.floor(Math.random() * buttons.length); // 0..3
-            // re-enable briefly so selectIndex can compute RT cleanly
-            buttons.forEach(b => b.disabled = false);
-            selectIndex(idx);
-          }, delay);
+              if (remaining.length > 1) {
+                autoEliminateNext();
+              } else {
+                // final flip happens automatically (same as before)
+                const finalIdx = remaining[0];
+                setTimeout(() => {
+                  flipOne(finalIdx);
+                  highlightFinal(finalIdx);
+                  setTimeout(() => finishTrial(finalIdx), 1500);
+                }, 800);
+              }
+            }, delay);
+          }
+
+          busy = false;
+          autoEliminateNext();
 
         } else {
-          // MANUAL mode
+          // ===== PLAY / MANUAL: user must click all four; fourth click flips + ends =====
           buttons.forEach(btn => {
+            btn.disabled = false;
             btn.addEventListener('click', () => {
-              if (buttons.some(b => b.disabled)) return;
+              if (busy) return;
               const idx = parseInt(btn.dataset.index, 10);
-              selectIndex(idx);
+              if (!remaining.includes(idx)) return; // ignore clicks on eliminated
+
+              if (remaining.length > 1) {
+                // eliminate this card
+                eliminateIndex(idx);
+              } else {
+                // this is the survivor; user must click it to flip and finish
+                busy = true;
+                flipOne(idx);
+                highlightFinal(idx);           // highlight ONLY when it's actually flipped
+                setTimeout(() => finishTrial(idx), 1500);
+              }
             });
           });
         }
       },
-        on_finish: function(data) {
-            data.round = round;
-        }
+      on_finish: function(data) {
+        data.round = round;
+      }
     };
+
 
     // Feedback trial showing points earned; deck banner remains visible
     const feedback = {
@@ -479,7 +528,7 @@ const exp = (function() {
             const last = jsPsych.data.get().last(1).values()[0]; // the choice trial
             return `
               <div class="center">
-                <div style="font-size:80px; font-weight:800; line-height:80px; color:${colorFor(last.outcome_points)}">+${last.outcome_points}<br>Points</div>
+                <div style="font-size:80px; font-weight:800; line-height:80px; color:${colorFor(last.outcome_points)}">+${last.outcome_points}<br>Tokens</div>
               </div>
             `;
         },
@@ -623,7 +672,7 @@ const exp = (function() {
     p.save_data = {
         type: jsPsychPipe,
         action: "save",
-        experiment_id: "SVr2z3Jey93W",
+        experiment_id: "0w1mxME35rKW",
         filename: filename,
         data_string: ()=>jsPsych.data.get().csv()
     };
