@@ -104,7 +104,7 @@ const exp = (function() {
 
         how_to_spin_play: [
             `<div class='parent'>
-                <p>Four Card Draw includes 12 different decks. You will make 10 selections from each deck.</p>
+                <p>Four Card Draw includes 8 different decks. You will make 10 selections from each deck.</p>
                 <p>To flip the cards, click them with your mouse cursor:<p>
                 <img src="./img/${play}-gif.gif" style="width:50%; height:50%">
             </div>`,
@@ -123,7 +123,7 @@ const exp = (function() {
 
         how_to_spin_watch: [
             `<div class='parent'>
-                <p>Four Card Draw includes 12 different decks. You will observe 10 selections from each deck.</p>
+                <p>Four Card Draw includes 8 different decks. You will observe 10 selections from each deck.</p>
                 <p>The cards will flip automatically at random:<p>
                 <img src="./img/${play}-gif.gif" style="width:50%; height:50%">
             </div>`,
@@ -337,12 +337,12 @@ const exp = (function() {
       { deck: [3,4,8,9], cardinality: 4, ev: 6, n_wild: 4, label: "40%", deck_id: 2 },
       { deck: [1,1,7,7], cardinality: 2, ev: 4, n_wild: 4, label: "40%", deck_id: 3 },
       { deck: [3,3,9,9], cardinality: 2, ev: 6, n_wild: 4, label: "40%", deck_id: 4 },
-
+/*
       { deck: [1,2,6,7], cardinality: 4, ev: 4, n_wild: 2, label: "20%", deck_id: 5 },
       { deck: [3,4,8,9], cardinality: 4, ev: 6, n_wild: 2, label: "20%", deck_id: 6 },
       { deck: [1,1,7,7], cardinality: 2, ev: 4, n_wild: 2, label: "20%", deck_id: 7 },
       { deck: [3,3,9,9], cardinality: 2, ev: 6, n_wild: 2, label: "20%", deck_id: 8 },
-
+*/
       { deck: [1,2,6,7], cardinality: 4, ev: 4, n_wild: 0, label: "0%", deck_id: 9 },
       { deck: [3,4,8,9], cardinality: 4, ev: 6, n_wild: 0, label: "0%", deck_id: 10 },
       { deck: [1,1,7,7], cardinality: 2, ev: 4, n_wild: 0, label: "0%", deck_id: 11 },
@@ -581,6 +581,7 @@ const exp = (function() {
         on_finish: function(data) {
             data.round = round;
             data.happiness = Object.values(data.response)[0];
+            round++;
         }
     };
 
