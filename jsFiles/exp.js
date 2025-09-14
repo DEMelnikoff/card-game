@@ -372,7 +372,7 @@ const exp = (function() {
             return html;
         },
         choices: "NO_KEYS",
-        trial_duration: 5000,
+        trial_duration: 4000,
         response_ends_trial: false,
         data: {phase: 'deck-info', wheel_id: jsPsych.timelineVariable('deck_id'), ev: jsPsych.timelineVariable('ev'), cardinality: jsPsych.timelineVariable('cardinality'), p_wild: jsPsych.timelineVariable('n_wild')},
         on_finish: function(data) {
